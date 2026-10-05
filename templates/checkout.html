@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Buds & Beez{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4">
+    <div class="container">
+        <h1 class="fw-bold mb-0">Checkout</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 mt-2">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li class="breadcrumb-item active">Checkout</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-5">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">Shipping Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {{ form.shipping_address.label(class="form-label") }}
+                            {{ form.shipping_address(class="form-control", rows="4", placeholder="Enter your full shipping address") }}
+                            {% for error in form.shipping_address.errors %}
+                            <span class="text-danger small">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.notes.label(class="form-label") }}
+                            {{ form.notes(class="form-control", rows="2", placeholder="Optional delivery notes") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for item, product in cart_products %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{{ product.name }} x{{ item.quantity }}</span>
+                            <span>R{{ "%.2f"|format(product.price * item.quantity) }}</span>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total</strong>
+                            <strong class="text-primary">R{{ "%.2f"|format(total) }}</strong>
+                        </div>
+                        {{ form.submit(class="btn btn-primary w-100 btn-lg") }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

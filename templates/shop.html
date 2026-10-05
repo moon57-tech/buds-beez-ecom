@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Shop - Buds & Beez{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4">
+    <div class="container">
+        <h1 class="fw-bold mb-0">Shop</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 mt-2">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="breadcrumb-item active">Shop</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Categories</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 px-0">
+                            <a href="{{ url_for('shop') }}" class="text-decoration-none d-block {% if not selected_category %}fw-bold text-primary{% endif %}">
+                                All Products
+                            </a>
+                        </li>
+                        {% for category in categories %}
+                        <li class="list-group-item border-0 px-0">
+                            <a href="{{ url_for('shop', category=category.id) }}" class="text-decoration-none d-block {% if selected_category|int == category.id %}fw-bold text-primary{% endif %}">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="text-muted mb-0">Showing {{ products.items|length }} of {{ products.total }} products</p>
+            </div>
+            {% if products.items %}
+            <div class="row g-4">
+                {% for product in products.items %}
+                <div class="col-md-4">
+                    <div class="card h-100 product-card shadow-sm">
+                        <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 220px;">
+                            {% if product.image_url %}
+                            <img src="{{ product.image_url }}" class="img-fluid" alt="{{ product.name }}" style="max-height: 100%; object-fit: cover;">
+                            {% else %}
+                            <i class="bi bi-flower1 text-muted" style="font-size: 3rem;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted small flex-grow-1">{{ product.description|truncate(60) }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-primary">R{{ "%.2f"|format(product.price) }}</h5>
+                                <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-outline-primary btn-sm">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if products.pages > 1 %}
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if products.has_prev %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('shop', page=products.prev_num, category=selected_category) }}">Previous</a></li>
+                    {% endif %}
+                    {% for page_num in products.iter_pages() %}
+                        {% if page_num %}
+                            <li class="page-item {% if page_num == products.page %}active{% endif %}"><a class="page-link" href="{{ url_for('shop', page=page_num, category=selected_category) }}">{{ page_num }}</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if products.has_next %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('shop', page=products.next_num, category=selected_category) }}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            {% else %}
+            <div class="text-center py-5">
+                <p class="text-muted">No products found in this category.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

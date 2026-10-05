@@ -1,0 +1,70 @@
+:root {
+    --bs-primary: #2d5f3b;
+    --bs-primary-rgb: 45, 95, 59;
+    --bs-secondary: #d4af37;
+    --bs-warning: #f4e06a;
+    --accent-green: #4a7c59;
+    --accent-gold: #d4af37;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, var(--accent-green) 100%) !important;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, var(--accent-green) 100%) !important;
+}
+
+.text-primary {
+    color: var(--bs-primary) !important;
+}
+
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.btn-outline-primary {
+    color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(45, 95, 59, 0.9), rgba(45, 95, 59, 0.9)), url('/static/img/logo.png');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+}
+
+.navbar-brand span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
