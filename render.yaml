@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: buds-beez-ecom
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: PAYFAST_MERCHANT_ID
+        value: "30676571"
+      - key: PAYFAST_MERCHANT_KEY
+        sync: false
+      - key: PAYFAST_PASSPHRASE
+        sync: false
+      - key: PAYFAST_TEST_MODE
+        value: "True"
+      - key: PYTHONUNBUFFERED
+        value: "1"
